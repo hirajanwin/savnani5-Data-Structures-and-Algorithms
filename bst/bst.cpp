@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <stdio.h>
-#include <bits/stdc++.h>
 #include <vector>
 
 using namespace std;
@@ -70,9 +69,9 @@ class BST
             else
             {
                 if(key < p->data)
-                    Delete(key, p->left);
+                    p->left = Delete(key, p->left);
                 else if(key > p->data)
-                    Delete(key, p->right);
+                    p->right = Delete(key, p->right);
                 else if(p->left==NULL || p->right==NULL)
                 {
                     if(p->left==NULL)

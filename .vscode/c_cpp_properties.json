@@ -3,7 +3,9 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/binary_tree",
+                "${workspaceFolder}/graphs"
             ],
             "defines": [
                 "_DEBUG",

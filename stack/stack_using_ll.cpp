@@ -1,24 +1,26 @@
 #include <iostream>
 using namespace std;
  
-class Node{
-public:
-    int data;
-    Node* next;
+class Node
+{
+    public:
+        int data;
+        Node* next;
 };
  
-class Stack{
-private:
-    Node* top;
-public:
-    Stack();
-    ~Stack();
-    void push(int x);
-    int pop();
-    int peek(int index);
-    int isEmpty();
-    int isFull();
-    int stackTop();
+class Stack
+{
+    private:
+        Node* top;
+    public:
+        Stack();
+        ~Stack();
+        void push(int x);
+        int pop();
+        int peek(int index);
+        int isEmpty();
+        int isFull();
+        int stackTop();
 };
  
 Stack::Stack() {
@@ -40,7 +42,7 @@ void Stack::push(int x) {
         cout << "Stack Overflow!" << endl;
     } else {
         t->data = x;
-        t->next = top;
+        top->next = t;
         top = t;
     }
 }

@@ -48,10 +48,12 @@ Sparse Sparse::operator+(Sparse &s)
     i=j=k=0;
     while(i<num && j<s.num)
     {
+        // check for row index
         if(ele[i].i<s.ele[j].i)
             sum->ele[k++]=ele[i++];
         else if(ele[i].i > s.ele[j].i)
             sum->ele[k++]=s.ele[j++];
+        // if row index is equal
         else
         {
             if(ele[i].j<s.ele[j].j)
@@ -77,7 +79,7 @@ istream & operator>>(istream &is,Sparse &s)
 {
     cout<<"Enter non-zero elements\n";
     for(int i=0;i<s.num;i++)
-    cin>>s.ele[i].i>>s.ele[i].j>>s.ele[i].x;
+        cin>>s.ele[i].i>>s.ele[i].j>>s.ele[i].x;
     return is;
 }
 

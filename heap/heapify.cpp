@@ -2,6 +2,10 @@
 
 using namespace std;
  
+// Summary - we use heapify to create the heap , deletion is same, heapify takes O(n) instead of O(nlogn) for creation
+// Heapify - Skip all the leaf nodes, and go back from the last leaf element's parent to root essentially till you satisfiy the max/min heap condition- this would be similar to the delete operation
+
+
 void swap(int A[], int i, int j){
     int temp = A[i];
     A[i] = A[j];

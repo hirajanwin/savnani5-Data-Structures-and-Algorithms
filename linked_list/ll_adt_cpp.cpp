@@ -99,6 +99,7 @@ void LinkedList::Insert(int index, int x)
     else if(index==LinkedList::Length())
     {
         last->next=t;
+        last = t;
     }
     else
     {
@@ -200,36 +201,42 @@ void LinkedList::Reverse()
 // Performed on Sorted Arrays
 void LinkedList::Merge(Node *q)
 {
-    Node *p=first, *r=NULL;
+    // q is the head of the second linked list
+    Node *p=first, *third = NULL, *last = NULL;
     if(p->data<q->data)
     {
-        first=p;
-        r=p;
+        third = last = p;
         p=p->next;
+        last->next = NULL;
     }
     else
     {
-        first=q;
-        r=q;
-        q=q->next; 
+        third = last = q;
+        q = q->next;
+        last->next = NULL;
     }
 
     while(p && q)
     {
         if(p->data<q->data)
         {
-            r->next=p;
-            r=p;
+            last->next=p;
+            last=p;
             p=p->next;
+            last->next=NULL;
         }
         else
         {
-            r->next=q;
-            r=q;
+            last->next=q;
+            last=q;
             q=q->next;
+            last->next=NULL;
         }
     }
+    if(p)last->next=p;
+    if(q)last->next=q;
 }
+
 
 int main()
 {

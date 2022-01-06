@@ -1,11 +1,13 @@
 // SPOJ username: madara_op
 // Status : https://www.spoj.com/status/madara_op/
 
-// Note : If deletions are rare use lazydelete i.e keep an attribut dead/alive node in the node class
+// Note : If deletions are rare use lazydelete i.e keep an attribute dead/alive node in the node class
+// Summary of AVL trees :
+
+// Similar to BST - Just include update height and rebalance at end of insert and delete functions
+//  Rebalance calls respective rotations using balance factor of the node 
 
 #include <iostream>
-#include <stdio.h>
-#include <bits/stdc++.h>
 #include <vector>
 
 using namespace std;
@@ -164,9 +166,9 @@ class AVL
             else
             {
                 if(key < p->data)
-                    Delete(key, p->left);
+                    p->left = Delete(key, p->left);
                 else if(key > p->data)
-                    Delete(key, p->right);
+                    p->right = Delete(key, p->right);
                 else if(p->left==NULL || p->right==NULL)  // 0 child and 1 child case
                 {
                     if(p->left==NULL)

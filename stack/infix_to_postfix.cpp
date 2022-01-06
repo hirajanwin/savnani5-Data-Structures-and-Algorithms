@@ -211,11 +211,11 @@ int evalPostfix(char* postfix)
 
 int main()
 {
-    char infix[] = "((2+3)*5)-2/1";
+    char infix[] = "2+3*4/5-2";
     Stack s(strlen(infix)+1);
     s.push(' ');                                            //To avoid error
-    char* postfix = generalConvert(infix, s);
-    // cout << postfix;
+    char* postfix = convert(infix, s);
+    cout << postfix << endl;
     cout << evalPostfix(postfix); 
     return 0;
 }

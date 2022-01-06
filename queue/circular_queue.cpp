@@ -3,19 +3,19 @@
 using namespace std;
  
 class CircularQueue{
-private:
-    int size;
-    int front;
-    int rear;
-    int* Q;
-public:
-    CircularQueue(int size);
-    ~CircularQueue();
-    bool isFull();
-    bool isEmpty();
-    void enqueue(int x);
-    int dequeue();
-    void display();
+    private:
+        int size;
+        int front;
+        int rear;
+        int* Q;
+    public:
+        CircularQueue(int size);
+        ~CircularQueue();
+        bool isFull();
+        bool isEmpty();
+        void enqueue(int x);
+        int dequeue();
+        void display();
 };
  
 CircularQueue::CircularQueue(int size) {

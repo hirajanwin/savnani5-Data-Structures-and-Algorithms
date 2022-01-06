@@ -1,201 +1,370 @@
 #include <iostream>
-#include <stdio.h>
-#include <utils.h>
+#include <queue>
+#include <stack>
 
 using namespace std;
-
-class Tree
-{
-    public:
+ 
+class Node{
+public:
+    Node* lchild;
+    int data;
+    Node* rchild;
+    Node() {};
+    Node(int data);
+};
+ 
+Node::Node(int data) {
+    lchild = nullptr;
+    this->data = data;
+    rchild = nullptr;
+}
+ 
+class Tree{
+    private:
         Node* root;
+    public:
         Tree();
+        ~Tree();
         void CreateTree();
         void Preorder(Node* p);
-        void Postorder(Node* p);
+        void Preorder() { Preorder(root); }  // Passing Private Parameter in Constructor
         void Inorder(Node* p);
+        void Inorder() { Inorder(root); }
+        void Postorder(Node* p);
+        void Postorder() { Postorder(root); }
         void Levelorder(Node* p);
-        void iPreorder(Node* p);
-        void iPostorder(Node* p);
-        void iInorder(Node* p);
-        int Height(Node* root);
+        void Levelorder() { Levelorder(root); }
+        void iterativePreorder(Node* p);
+        void iterativePreorder() { iterativePreorder(root); }
+        void iterativeInorder(Node* p);
+        void iterativeInorder() { iterativeInorder(root); }
+        void iterativePostorder(Node* p);
+        void iterativePostorder() { iterativePostorder(root); }
+        Node* generateFromTraversal(int inorder[], int preorder[], int inStart, int inEnd);
+        int Height(Node* p);
+        int Height() { return Height(root); }
+        int Count(Node* p);
+        int Sum(Node* p);
+        int deg2NodeCount(Node* p);
+        int leafNodeCount(Node* p);
+        int deg1ordeg2NodeCount(Node* p);
+        int deg1NodeCount(Node* p);
+        void DestroyTree(Node* p);
 };
-
-Tree::Tree()
-{
-    root=NULL;
+ 
+Tree::Tree() {
+    root = nullptr;
 }
-
-void Tree::CreateTree()
-{
-    Node *p, *t;
+ 
+Tree::~Tree() {
+    DestroyTree(root);
+}
+ 
+void Tree::CreateTree() {
+    Node* p;
+    Node* t;
     int x;
-    Queue Q(100);
-    cout << "Enter root value: ";
+    queue<Node*> q;
+ 
+    root = new Node;
+    cout << "Enter root data: " << flush;
     cin >> x;
-    root = new Node(x);
-    Q.enqueue(root);
-
-    while(!Q.isEmpty())
-    {
-        p = Q.dequeue();
-        cout << "Enter Left Child of " << p->data << ": ";
+    root->data = x;
+    root->lchild = nullptr;
+    root->rchild = nullptr;
+    q.emplace(root);
+ 
+    while (! q.empty()){
+        p = q.front();
+        q.pop();
+ 
+        cout << "Enter left child data of " << p->data << ": " << flush;
         cin >> x;
-        if(x!=-1)
-        {
-            t = new Node(x);
+        if (x != -1){
+            t = new Node;
+            t->data = x;
+            t->lchild = nullptr;
+            t->rchild = nullptr;
             p->lchild = t;
-            Q.enqueue(t);
+            q.emplace(t);
         }
-        cout << "Enter Right Child of " << p->data << ": ";
+ 
+        cout << "Enter right child data of " << p->data << ": " << flush;
         cin >> x;
-        if(x!=-1)
-        {
-            t = new Node(x);
+        if (x != -1){
+            t = new Node;
+            t->data = x;
+            t->lchild = nullptr;
+            t->rchild = nullptr;
             p->rchild = t;
-            Q.enqueue(t);
+            q.emplace(t);
         }
     }
 }
-
-void Tree::Preorder(Node* p)
-{
-    if(p)
-    {
-        cout << p->data << " ";
+ 
+void Tree::Preorder(Node *p) {
+    if (p){
+        cout << p->data << ", " << flush;
         Preorder(p->lchild);
         Preorder(p->rchild);
     }
 }
-
-void Tree::Postorder(Node* p)
-{
-    if(p)
-    {
-        Postorder(p->lchild);
-        Postorder(p->rchild);
-        cout << p->data << " ";
-    }
-}
-
-void Tree::Inorder(Node* p)
-{
-    if(p)
-    {
+ 
+void Tree::Inorder(Node *p) {
+    if (p){
         Inorder(p->lchild);
-        cout << p->data << " ";
+        cout << p->data << ", " << flush;
         Inorder(p->rchild);
     }
 }
-
-void Tree::iPreorder(Node* p)
-{
-    Stack S(100);
-    while(p != NULL || !S.isEmpty())
-    {
-        if(p!=NULL)
-        {
-            cout << p->data << " ";
-            S.push(p);
-            p = p->lchild;
+ 
+void Tree::Postorder(Node *p) {
+    if (p){
+        Postorder(p->lchild);
+        Postorder(p->rchild);
+        cout << p->data << ", " << flush;
+    }
+}
+ 
+void Tree::Levelorder(Node *p) {
+    queue<Node*> q;
+    cout << p->data << ", " << flush;
+    q.emplace(p);
+ 
+    while (! q.empty()){
+        p = q.front();
+        q.pop();
+ 
+        if (p->lchild){
+            cout << p->lchild->data << ", " << flush;
+            q.emplace(p->lchild);
         }
-        else
-        {
-            p = S.pop();
-            p = p->rchild;
+ 
+        if (p->rchild){
+            cout << p->rchild->data << ", " << flush;
+            q.emplace(p->rchild);
         }
     }
 }
-
-void Tree::iInorder(Node* p)
-{
-    Stack S(100);
-    while(p != NULL || !S.isEmpty())
-    {
-        if(p!=NULL)
-        {
-            S.push(p);
+ 
+void Tree::iterativePreorder(Node *p) {
+    stack<Node*> stk;
+    while (p != nullptr || ! stk.empty()){
+        if (p != nullptr){
+            cout << p->data << ", " << flush;
+            stk.emplace(p);
             p = p->lchild;
-        }
-        else
-        {
-            p = S.pop();
-            cout << p->data << " ";
+        } else {
+            p = stk.top();
+            stk.pop();
             p = p->rchild;
         }
     }
+    cout << endl;
 }
-
-
-// void Tree::iPostorder(Node* p)
-// {
-//     Stack S(100);
-//     long temp;
-//     while(p != NULL || !S.isEmpty())
-//     {
-//         if(p!=NULL)
-//         {
-//             S.push(p);
+ 
+void Tree::iterativeInorder(Node *p) {
+    stack<Node*> stk;
+    while (p != nullptr || ! stk.empty()){
+        if (p != nullptr){
+            stk.emplace(p);
+            p = p->lchild;
+        } else {
+            p = stk.top();
+            stk.pop();
+            cout << p->data << ", " << flush;
+            p = p->rchild;
+        }
+    }
+    cout << endl;
+}
+ 
+// void Tree::iterativePostorder(Node *p) {
+//     stack<long int> stk;
+//     long int temp;
+//     while (p != nullptr || ! stk.empty()){
+//         if (p != nullptr){
+//             stk.emplace((long int)p);
 //             p = p->lchild;
-//         }
-//         else
-//         {
-//             temp = (int)S.pop();
-//             if(temp > 0)
-//             {
-//                 S.push((Node*)(-temp));
+//         } else {
+//             temp = stk.top();
+//             stk.pop();
+//             if (temp > 0){
+//                 stk.emplace(-temp);
 //                 p = ((Node*)temp)->rchild;
-//             }
-//             else
-//             {
-//                 cout << ((Node*)temp)->data;
-//                 p = NULL;
+//             } else {
+//                 cout << ((Node*)(-1 * temp))->data << ", " << flush;
+//                 p = nullptr;
 //             }
 //         }
 //     }
+//     cout << endl;
 // }
-
-
-void Tree::Levelorder(Node* p)
-{
-    Queue q(100);
-    cout << p->data << " ";
-    q.enqueue(p);
-
-    while(!q.isEmpty())
-    {
-        p=q.dequeue();
-        if(p->lchild)
-        {
-            cout << p->lchild->data << " ";
-            q.enqueue(p->lchild);
+ 
+int searchInorder(int inArray[], int inStart, int inEnd, int data){
+    for (int i=inStart; i<=inEnd; i++){
+        if (inArray[i] == data){
+            return i;
         }
-        if(p->rchild)
-        {
-            cout << p->rchild->data << " ";
-            q.enqueue(p->rchild);
-        } 
+    }
+    return -1;
+}
+ 
+Node* Tree::generateFromTraversal(int *inorder, int *preorder, int inStart, int inEnd) {
+    static int preIndex = 0;
+ 
+    if (inStart > inEnd){
+        return nullptr;
+    }
+ 
+    Node* node = new Node(preorder[preIndex++]);
+ 
+    if (inStart == inEnd){
+        return node;
+    }
+ 
+    int splitIndex = searchInorder(inorder, inStart, inEnd, node->data);
+    node->lchild = generateFromTraversal(inorder, preorder, inStart, splitIndex-1);
+    node->rchild = generateFromTraversal(inorder, preorder, splitIndex+1, inEnd);
+ 
+    return node;
+}
+ 
+int Tree::Height(Node *p) {
+    int l = 0;
+    int r = 0;
+ 
+    if (p != nullptr){
+        l = Height(p->lchild);
+        r = Height(p->rchild);
+        if (l > r){
+            return l + 1;
+        } else {
+            return r + 1;
+        }
+    }
+    return 0;
+}
+ 
+int Tree::Count(Node *p) {
+    int x;
+    int y;
+    if (p != nullptr){
+        x = Count(p->lchild);
+        y = Count(p->rchild);
+        return x + y + 1;
+    }
+    return 0;
+}
+ 
+int Tree::Sum(Node *p) {
+    int x;
+    int y;
+    if (p != nullptr){
+        x = Sum(p->lchild);
+        y = Sum(p->rchild);
+        return x + y + p->data;
+    }
+    return 0;
+}
+ 
+int Tree::deg2NodeCount(Node *p) {
+    int x;
+    int y;
+    if (p != nullptr){
+        x = deg2NodeCount(p->lchild);
+        y = deg2NodeCount(p->rchild);
+        if (p->lchild && p->rchild){
+            return x + y + 1;
+        } else {
+            return x + y;
+        }
+    }
+    return 0;
+}
+ 
+int Tree::leafNodeCount(Node *p) {
+    int x;
+    int y;
+    if (p != nullptr){
+        x = leafNodeCount(p->lchild);
+        y = leafNodeCount(p->rchild);
+        if (p->lchild == nullptr && p->rchild == nullptr){
+            return x + y + 1;
+        } else {
+            return x + y;
+        }
+    }
+    return 0;
+}
+ 
+int Tree::deg1ordeg2NodeCount(Node *p) {
+    int x;
+    int y;
+    if (p != nullptr){
+        x = deg1ordeg2NodeCount(p->lchild);
+        y = deg1ordeg2NodeCount(p->rchild);
+        if (p->lchild != nullptr || p->rchild != nullptr){
+            return x + y + 1;
+        } else {
+            return x + y;
+        }
+    }
+    return 0;
+}
+ 
+int Tree::deg1NodeCount(Node *p) {
+    int x;
+    int y;
+    if (p != nullptr){
+        x = deg1NodeCount(p->lchild);
+        y = deg1NodeCount(p->rchild);
+        if (p->lchild != nullptr ^ p->rchild != nullptr){
+            return x + y + 1;
+        } else {
+            return x + y;
+        }
+    }
+    return 0;
+}
+ 
+void Tree::DestroyTree(Node *p) {
+    if (p != nullptr){
+        DestroyTree(p->lchild);
+        DestroyTree(p->rchild);
+        delete p;
     }
 }
-
-int Tree::Height(Node* root)
-{
-    int x=0, y=0;
-    if(root==0)
-        return 0;
-    x = Height(root->lchild);
-    y = Height(root->rchild);
-    if(x>y) 
-        return x+1;
-    else
-        return y+1;
-}
-
-int main()
-{
-    Tree t;
-    t.CreateTree();
-    t.iInorder(t.root);
-    // t.Postorder(t.root);
-    // t.Levelorder(t.root);
-    // t.Inorder(t.root);
+ 
+ 
+int main() {
+ 
+    Tree bt;
+ 
+    int preorder[] = {8, 3, 12, 4, 9, 7, 5, 10, 6, 2};
+    int inorder[] = {12, 9, 4, 7, 3, 8, 10, 5, 2, 6};
+ 
+    int size = sizeof(inorder)/sizeof(inorder[0]);
+ 
+    Node* T = bt.generateFromTraversal(inorder, preorder, 0, size-1);
+ 
+    cout << "Preorder: " << flush;
+    bt.Preorder(T);
+    cout << endl;
+ 
+    cout << "Inorder: " << flush;
+    bt.Inorder(T);
+    cout << endl;
+ 
+    cout << "Height: " << bt.Height(T) << endl;
+    cout << "Count: " << bt.Count(T) << endl;
+    cout << "Sum: " << bt.Sum(T) << endl;
+    cout << "# of degree 2 nodes: " << bt.deg2NodeCount(T) << endl;
+    cout << "# of leaf nodes: " << bt.leafNodeCount(T) << endl;
+    cout << "# of degree 1 or degree 2 nodes: " << bt.deg1ordeg2NodeCount(T) << endl;
+    cout << "# of degree 1 nodes: " << bt.deg1NodeCount(T) << endl;
+ 
+    bt.DestroyTree(T);
+ 
+    return 0;
 }

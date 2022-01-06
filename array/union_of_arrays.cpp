@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdio.h>
-#include <bits/stdc++.h>
+#include <set>
 #include <vector>
 
 using namespace std;
@@ -17,7 +17,9 @@ int doUnion(int a[], int n, int b[], int m)  {
 
 int main()
 {
-    int n=5,m=3,a[n] = {1,2,3,4,5}, b[m] = {7,3,4};
+    int n=5,m=3;
+    int a[5] = {1,2,3,4,5}; 
+    int b[3] = {7,3,4};
     cout << doUnion(a,n,b,m);
 
 }

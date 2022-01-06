@@ -3,22 +3,22 @@
 using namespace std;
  
 class DEQueue{
-private:
-    int front;
-    int rear;
-    int size;
-    int* Q;
- 
-public:
-    DEQueue(int size);
-    ~DEQueue();
-    void display();
-    void enqueueFront(int x);
-    void enqueueRear(int x);
-    int dequeueFront();
-    int dequeueRear();
-    bool isEmpty();
-    bool isFull();
+    private:
+        int front;
+        int rear;
+        int size;
+        int* Q;
+    
+    public:
+        DEQueue(int size);
+        ~DEQueue();
+        void display();
+        void enqueueFront(int x);
+        void enqueueRear(int x);
+        int dequeueFront();
+        int dequeueRear();
+        bool isEmpty();
+        bool isFull();
 };
  
 DEQueue::DEQueue(int size) {

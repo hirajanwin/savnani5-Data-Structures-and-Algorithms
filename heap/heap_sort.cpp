@@ -1,9 +1,12 @@
 #include <iostream>
 #include <stdio.h>
-#include <bits/stdc++.h>
 
 using namespace std;
 
+// Summary of heap sort - 
+// insert - insert at end to maitain complete binary tree and swap with parents till the max/min heap condition satisfies
+// delete - delete the root and replace it with the last element in the tree and delete that element. Then swap with children till the max/min heap condition satisfies 
+// insert elements and delete them and after deletion just add them at end of array
 
 void insert(int* H, int n)
 {
@@ -31,9 +34,7 @@ int Delete(int* H, int n)
             j=j+1;
         if(H[i] < H[j])
         {
-            int temp = H[i];
-            H[i] = H[j];
-            H[j] = temp;
+            swap(H[i], H[j]);
             i = j;
             j = 2*j;
         }
@@ -45,7 +46,7 @@ int Delete(int* H, int n)
 
 int main()
 {
-    int n=8;
+    const int n=8;
     int H[n] = {0, 10, 20, 30, 25, 5, 40, 35};
 
     // Insert elements from index = 2, coz 0th index is dummy, assume 1st index is the starting heap!  
