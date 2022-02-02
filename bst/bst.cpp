@@ -81,8 +81,7 @@ class BST
                 }
                 else
                 {
-                    Node* r;
-                    r = find_replacement(p);
+                    Node* r = find_replacement(p);
                     p->data = r->data;
                     p->right = Delete(key, p->right);
                 }        

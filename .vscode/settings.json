@@ -6,6 +6,11 @@
         "string": "cpp",
         "string_view": "cpp",
         "list": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "xstring": "cpp",
+        "algorithm": "cpp",
+        "xiosbase": "cpp",
+        "xlocale": "cpp",
+        "xutility": "cpp"
     }
 }

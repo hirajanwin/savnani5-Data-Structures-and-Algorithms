@@ -4,12 +4,13 @@
 // If 2 non-connected graphs then krushal's algorithm will find the MST for all non-connected graphs
 
 // Steps for Krushkals algorithm
-// 1) Sort all edges in non-decreasing order of theri weight
+// 1) Sort all edges in non-decreasing order of their weight
 // 2) 
         // a) Pick the smallest edge
         // b) Check if the new edge forms a cycle in our Spanning tree being formed
         // c) If cycle is not formed include the edge otherwise discard the edge 
     // Repeat step-2 unless V-1 edges are included in the MST
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -54,7 +55,7 @@ public:
         {
             if (rank[s1] < rank[s2])
             {
-                parent[s1] = s2;
+                parent[s1] = s2; 
                 rank[s2] += rank[s1];
             }
             else
@@ -96,7 +97,7 @@ public:
             int x = edge[1];
             int y = edge[2];
  
-            // take that edge in MST if it does form a cycle
+            // take that edge in MST if it does not form a cycle
             if (s.find(x) != s.find(y))
             {
                 s.unite(x, y);
