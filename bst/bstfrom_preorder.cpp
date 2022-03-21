@@ -33,6 +33,7 @@ public:
     Node* InPre(Node* p);
     Node* InSucc(Node* p);
     void createFromPreorder(int pre[], int n);
+    Node* createFromPreorder2(int *pre, int& preIndex, int boundary); 
 };
   
 void BST::iInsert(int key) {
@@ -210,7 +211,21 @@ void BST::createFromPreorder(int *pre, int n) {
         }
     }
 }
- 
+
+
+Node* BST::createFromPreorder2(int *pre, int& preIndex, int boundary) {
+    if(preIndex >= sizeof(pre)/sizeof(pre[0]) || pre[preIndex] >= boundary)
+        return NULL;
+
+    // Create new node
+    Node* root = new Node(pre[preIndex]);
+    preIndex++;
+
+    // Recursively call lst and rst
+    root->lchild = createFromPreorder2(pre, preIndex, root->data);
+    root->rchild = createFromPreorder2(pre, preIndex, boundary);
+    return root;
+}
  
 int main() {
  
@@ -279,7 +294,9 @@ int main() {
     int n = sizeof(pre)/sizeof(pre[0]);
  
     BST b;
-    b.createFromPreorder(pre, n);
+    // b.createFromPreorder(pre, n);
+    int preIndex = 0;
+    b.createFromPreorder2(pre, preIndex, 1001);
     b.Inorder(b.getRoot());
     cout << endl;
  

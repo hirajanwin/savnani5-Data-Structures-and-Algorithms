@@ -21,7 +21,7 @@ int solve(vector<int>& v, int i, int j)
     {
         int temp = solve(v, i, k) + solve(v, k+1, j) + v[i-1]*v[k]*v[j];
         if(temp < mn)
-            mn = temp; 
+            mn = temp;
     }
     return t[i][j] = mn;
 }

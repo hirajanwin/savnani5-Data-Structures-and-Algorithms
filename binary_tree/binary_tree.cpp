@@ -201,6 +201,7 @@ void Tree::iterativeInorder(Node *p) {
 //     cout << endl;
 // }
  
+// Use hashmap instead of this to improve TC
 int searchInorder(int inArray[], int inStart, int inEnd, int data){
     for (int i=inStart; i<=inEnd; i++){
         if (inArray[i] == data){
@@ -212,7 +213,7 @@ int searchInorder(int inArray[], int inStart, int inEnd, int data){
  
 Node* Tree::generateFromTraversal(int *inorder, int *preorder, int inStart, int inEnd) {
     static int preIndex = 0;
- 
+    
     if (inStart > inEnd){
         return nullptr;
     }
